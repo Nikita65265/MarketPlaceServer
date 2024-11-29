@@ -5,6 +5,8 @@
 
 #include <boost/array.hpp>
 
+#include "ServerRequestDispatcher.h"
+
 
 Server::Server(short port) :
 	server_context(),
@@ -84,4 +86,7 @@ void Server::on_read(const error_code& err, size_t bytes)
 	std::string msg(readBuffer, bytes);
 
 	// Здесь отправляем информацию в обработчик сообщений
+	
+
+	// 
 }
