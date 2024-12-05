@@ -2,80 +2,80 @@
 
 #include <string>
 
-
-// ТИПЫ ДОСТУПНЫХ КОМАНД
-struct commands_struct {
-	static constexpr const char* Method				 = "METHOD";
-	static constexpr const char* Product_Affiliation = "PRODUCT_AFFILIATION";
-	static constexpr const char* Product_Type		 = "PRODUCT_TYPE";
-} commands;
-
-
 // ГЛАВНЫЕ МЕТОДЫ
-struct methods_struct { 
-	static constexpr const char* Get    = "GET";
-	static constexpr const char* Post   = "POST";
-	static constexpr const char* Put    = "PUT";
-	static constexpr const char* Delete = "DELETE";
-	static constexpr const char* Login  = "LOGIN";
-	static constexpr const char* Logout = "LOGOUT";
-} methods;
+enum METHODS { Get, Post, Put, Delete, Login ,Logout};
 
 
-// ПРИНАДЛЕЖНОСТИ ПРОДУКТОВ
-struct products_affiliation_struct {
-	static constexpr const char* Bicycles	= "BICYCLES";
-	static constexpr const char* Skis		= "SKIS";
-	static constexpr const char* Roller_Skis = "ROLLER_SKIS";
-} products_affiliation;
+// Наименования столбцов таблицы БД "Users" + имя таблицы
+struct users_struct {
+	static constexpr std::string_view table_name 	= "Users";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view first_name 	= "first_name";
+	static constexpr std::string_view last_name  	= "last_name";
+	static constexpr std::string_view email		 	= "email";
+	static constexpr std::string_view password_hash	= "password_hash";
+	static constexpr std::string_view role			= "role";
+} const inline users;
 
 
-// ТИПЫ ПРОДУКТОВ
-struct product_type_struct {
-	static constexpr const char* Shoes		= "SHOES";
-	static constexpr const char* Bicycles	= "BICYCLES";
-	static constexpr const char* Skis		= "SKIS";
-	static constexpr const char* Roller_Skis = "ROLLER_SKIS";
-} product_type;
+// Наименования столбцов таблицы БД "Products" + имя таблицы
+struct products_struct {
+	static constexpr std::string_view table_name 	= "Products";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view name 		 	= "name";
+	static constexpr std::string_view price 	 	= "price";
+	static constexpr std::string_view description 	= "description";
+	static constexpr std::string_view images 	 	= "images";
+	static constexpr std::string_view category_id 	= "category_id";
+} const inline products;
 
 
-// ОБЩИЕ ХАРАКТЕРИСТИКИ ПРОДУКТОВ
-struct product_characteristics {
-	static constexpr const char* Firm = "FIRM";
-	static constexpr const char* Color = "COLOR";
-	static constexpr const char* Price = "PRICE";
-	static constexpr const char* Created_At = "CREATED_AT";
-	static constexpr const char* Updated_At = "UPDATED_AT";
-	static constexpr const char* Description = "DESCRIPTION";
-};
+// Наименования столбцов таблицы БД "Categories" + имя таблицы 
+struct categories_struct {
+	static constexpr std::string_view table_name 	= "Categories";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view name 		 	= "name";
+} const inline categories;
 
 
-// ДОПОЛНИТЕЛЬНЫЕ ХАРАКТЕРИСТИКИ ОБУВИ
-struct shoes_characteristics : product_characteristics {
-	static constexpr const char* Size = "SIZE";
-	static constexpr const char* Material = "MATERIAL";
-};
+// Наименования столбцов таблицы БД "Orders" + имя таблицы 
+struct orders_struct {
+	static constexpr std::string_view table_name 	= "Orders";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view user_id	 	= "user_id";
+	static constexpr std::string_view status	 	= "status";
+	static constexpr std::string_view created_at 	= "created_at";
+	static constexpr std::string_view updated_at 	= "updated_at";
+} const inline orders;
 
 
-// ДОПОЛНИТЕЛЬНЫЕ ХАРАКТЕРИСТИКИ ВЕЛОСИПЕДОВ
-struct bicycles_characteristics : product_characteristics {
-	static constexpr const char* Wheels_Size = "WHEELS_SIZE";
-	static constexpr const char* Frame_Size = "FRAME_SIZE";
-	static constexpr const char* Material = "MATERIAL";
-};
+// Наименования столбцов таблицы БД "Reviews" + имя таблицы 
+struct reviews_struct {
+	static constexpr std::string_view table_name 	= "Reviews";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view user_id	 	= "user_id";
+	static constexpr std::string_view product_id 	= "product_id";
+	static constexpr std::string_view rating	 	= "rating";
+	static constexpr std::string_view comment	 	= "comment";
+} const inline reviews;
 
 
-// ДОПОЛНИТЕЛЬНЫЕ ХАРАКТЕРИСТИКИ ЛЫЖ
-struct skis_characteristics : product_characteristics {
-	static constexpr const char* Size = "SIZE";
-	static constexpr const char* Skiing_Style = "SKIING_STYLE";
-};
+// Наименования столбцов таблицы БД "Carts" + имя таблицы 
+struct carts_struct {
+	static constexpr std::string_view table_name 	= "Carts";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view user_id	 	= "user_id";
+	static constexpr std::string_view product_id 	= "product_id";
+	static constexpr std::string_view quantity	 	= "quantity";
+} const inline carts;
 
 
-// ДОПОЛНИТЕЛЬНЫЕ ХАРАКТЕРИСТИКИ ЛЫЖЕРОЛЛЕРОВ
-struct roller_skis_characteristics : product_characteristics {
-	static constexpr const char* Size = "SIZE";
-	static constexpr const char* Skiing_Style = "SKIING_STYLE";
-};
-
-
+// Наименования столбцов таблицы БД "Order_items" + имя таблицы 
+struct order_items_struct {
+	static constexpr std::string_view table_name 	= "Order_items";
+	static constexpr std::string_view id 		 	= "id";
+	static constexpr std::string_view product_id 	= "product_id";
+	static constexpr std::string_view order_id	 	= "order_id";
+	static constexpr std::string_view quantity	 	= "quantity";
+	static constexpr std::string_view price		 	= "price";
+} const inline order_items;

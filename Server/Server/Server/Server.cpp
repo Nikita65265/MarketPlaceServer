@@ -7,11 +7,11 @@
 
 #include "ServerRequestDispatcher.h"
 
+io_context server_context;
+ip::tcp::acceptor acceptor(server_context, ip::tcp::endpoint(ip::tcp::v4(), 8001));
 
 Server::Server(short port) :
-	server_context(),
-	tcpSocket(server_context),
-	acceptor(std::make_shared<ip::tcp::acceptor>(server_context, ip::tcp::endpoint(ip::tcp::v4(), port)))
+	tcpSocket(server_context)
 {
 }
 
@@ -19,7 +19,7 @@ Server::Server(short port) :
 void Server::runServer() 
 {
 	ptr connection = Server::createNewConnection();
-	acceptor->async_accept(connection->getSocket(), 
+	acceptor.async_accept(connection->getSocket(), 
 		boost::bind(&Server::handle_accept, shared_from_this(), connection, _1));
 	server_context.run();
 }
@@ -33,7 +33,7 @@ void Server::handle_accept(ptr connection, const error_code& err)
 
 Server::ptr Server::createNewConnection()
 {
-	return std::make_shared<Server>(12345);
+	return boost::make_shared<Server>(12345);
 }
 
 
@@ -82,11 +82,22 @@ void Server::on_read(const error_code& err, size_t bytes)
 	if (err) stopWork();
 	if (!isWorkServer) return;
 
-	// Считанное сообщение
 	std::string msg(readBuffer, bytes);
 
-	// Здесь отправляем информацию в обработчик сообщений
-	
 
-	// 
+}
+
+
+void Server::do_write(std::string_view msg)
+{
+	if (!isWorkServer) return;
+	std::copy(msg.begin(), msg.end(), writeBuffer);
+	tcpSocket.async_write_some(buffer(writeBuffer, msg.size()),
+		boost::bind(&Server::on_write, shared_from_this(), _1, _2));
+}
+
+
+void Server::on_write(const error_code& err, size_t bytes)
+{
+
 }

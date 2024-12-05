@@ -7,7 +7,7 @@
 using namespace boost::asio;
 
 class Server : public boost::enable_shared_from_this<Server> {
-	using ptr = std::shared_ptr<Server>;
+	using ptr = boost::shared_ptr<Server>;
 	using error_code = boost::system::error_code;
 public:
 	Server(short port);
@@ -20,28 +20,25 @@ public:
 
 private:
 	bool isWorkServer = false;
-	io_context server_context;
-	std::shared_ptr<ip::tcp::acceptor> acceptor;
 	ip::tcp::socket tcpSocket;
 
 	const static int msgSize = 1024;
 	char readBuffer[msgSize] = { 0 };
 	char writeBuffer[msgSize] = { 0 };
 
-	// ������
+	// Управление работой сервера
 	void startWork();
 	void stopWork();
 	
-	// ������
+	// Счиытвание данных
 	void do_read();
 	void on_read(const error_code& err, size_t bytes);
 	size_t read_complete(const error_code& err, size_t bytes);
 	
-	// ������
-	void do_write();
+	// Запись данных
+	void do_write(std::string_view msg);
 	void on_write(const error_code& err, size_t bytes);
 
-	
 	ip::tcp::socket& getSocket();
 };
 

@@ -2,55 +2,58 @@
 
 json ServerRequestDispatcher::getRequest(const json& msg)
 {
+	return "";
 }
 
 
-void ServerRequestDispatcher::sendMessage(const json& msg) {
-	std::string command = msg[commands.Method];
-
-	if		(command == methods.Get)	getDataFromDataBase(msg);
-	else if (command == methods.Delete) deleteDataFromDataBase(msg);
-	else if (command == methods.Post)	postDataToDataBase(msg);
-	else if (command == methods.Put)	putDataToDataBase(msg);
-	else if (command == methods.Login)	loginClient(msg);
-	else if (command == methods.Logout) logoutClient(msg);
-
+void ServerRequestDispatcher::sendMessage(METHODS method, const json& msg) {
+	if		(method == Get)		getDataFromDataBase(msg);
+	else if (method == Delete) 	deleteDataFromDataBase(msg);
+	else if (method == Post)	postDataToDataBase(msg);
+	else if (method == Put)		putDataToDataBase(msg);
+	else if (method == Login)	loginClient(msg);
+	else if (method == Logout)  logoutClient(msg);
 	else assert("NO SUCH COMMAND");
 }
 
 
 json ServerRequestDispatcher::getDataFromDataBase(const json& msg)
 {
-
+	return "";
 }
 
 
 json ServerRequestDispatcher::deleteDataFromDataBase(const json& msg)
 {
+	return "";
 
 }
 
 
 json ServerRequestDispatcher::postDataToDataBase(const json& msg)
 {
+	return "";
 
 }
 
 
 json ServerRequestDispatcher::putDataToDataBase(const json& msg)
 {
+	return "";
 
 }
 
 
 json ServerRequestDispatcher::loginClient(const json& msg)
 {
+	return "";
 
 }
 
 
 json ServerRequestDispatcher::logoutClient(const json& msg)
 {
+	return "";
 
 }
 
