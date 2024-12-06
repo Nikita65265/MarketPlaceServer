@@ -6,7 +6,7 @@
 using json = nlohmann::json;
 
 int main() {
-    std::cout << "START";
+    std::cout << "START" << std::endl;
 
     boost::shared_ptr<Server> server(new Server(8001));
     server->runServer();

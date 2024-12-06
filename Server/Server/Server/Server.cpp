@@ -18,6 +18,7 @@ Server::Server(short port) :
 
 void Server::runServer() 
 {
+	std::cout << "new client\n";
 	ptr connection = Server::createNewConnection();
 	acceptor.async_accept(connection->getSocket(), 
 		boost::bind(&Server::handle_accept, shared_from_this(), connection, _1));
@@ -27,13 +28,18 @@ void Server::runServer()
 
 void Server::handle_accept(ptr connection, const error_code& err)
 {
+	std::cout << "new client\n";
 	connection->startWork();
+
+	ptr newConnection = Server::createNewConnection();
+	acceptor.async_accept(newConnection->getSocket(),
+		boost::bind(&Server::handle_accept, shared_from_this(), newConnection, _1));
 }
 
 
 Server::ptr Server::createNewConnection()
 {
-	return boost::make_shared<Server>(12345);
+	return boost::make_shared<Server>(8001);
 }
 
 
@@ -55,12 +61,12 @@ void Server::stopWork()
 	if (!isWorkServer) return;
 	isWorkServer = false;
 
+	std::cout << "remove client\n";
 	tcpSocket.close();
 }
 
 
 void Server::do_read() {
-
 	async_read(tcpSocket, boost::asio::buffer(readBuffer),
 		bind(&Server::read_complete, shared_from_this(), _1, _2),
 		bind(&Server::on_read, shared_from_this(), _1, _2));
@@ -70,10 +76,27 @@ void Server::do_read() {
 size_t Server::read_complete(const error_code& err, size_t bytes)
 {
 	if (err) return 0;
+	
+	auto myFind = [](const char* ch, const size_t& bytes) -> bool {
+		char finderSymb = '\n';
+		int counter = 0;
+		for (int i = bytes; i >= 0; --i) {
+			if (ch[i] == finderSymb) {
+				counter++;
+				if (counter == 4) return true;
 
-	std::string data(readBuffer, bytes);
+				if (finderSymb == '\n') finderSymb = '\r';
+				else					finderSymb = '\n';
+			}
+			else {
+				counter = 0;
+			}
+		}
 
-	return  data.find("\r\n\r\n") != std::string::npos;
+		return false;
+	};
+
+	return !myFind(readBuffer, bytes);
 }
 
 
@@ -81,10 +104,19 @@ void Server::on_read(const error_code& err, size_t bytes)
 {
 	if (err) stopWork();
 	if (!isWorkServer) return;
+	if (bytes < 4) {
+		do_read();
+		return;
+	}
 
 	std::string msg(readBuffer, bytes);
 
+	for (int i = 0; i < bytes; i++) readBuffer[i] = '0';
 
+	msg.resize(bytes - 4);
+
+	std::cout << msg << " bytes: " << bytes << std::endl;
+	do_write("Response to msg: " + msg);
 }
 
 
@@ -99,5 +131,5 @@ void Server::do_write(std::string_view msg)
 
 void Server::on_write(const error_code& err, size_t bytes)
 {
-
+	do_read();
 }
