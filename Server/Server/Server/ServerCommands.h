@@ -3,7 +3,44 @@
 #include <string>
 
 // ГЛАВНЫЕ МЕТОДЫ
-enum METHODS { Get, Post, Put, Delete, Login ,Logout};
+enum class METHODS { Get, Post, Put, Delete, Login ,Logout};
+
+// Структура ответа HTTP
+struct http_response_struct {
+	// Строка состояния
+	static constexpr std::string_view http_version  = "HTTP_VERSION";
+	static constexpr std::string_view status_code   = "STATUS_CODE";
+	static constexpr std::string_view status_phrase = "STATUS_PHRASE";
+
+	// Заголовки
+	static constexpr std::string_view content_type   = "CONTENT_TYPE";
+	static constexpr std::string_view charset		 = "CHARSET";
+	static constexpr std::string_view content_length = "CONTENT_LENGTH";
+	static constexpr std::string_view server_name    = "SERVER_NAME";
+	static constexpr std::string_view date		     = "DATE";
+
+	// Тело ответа
+	static constexpr std::string_view body = "BODY";
+} const inline http_response;
+
+
+// Структура запроса HTTP
+struct http_request_struct {
+	// Строка запроса
+	static constexpr std::string_view method	   = "METHOD";
+	static constexpr std::string_view uri		   = "URI";
+	static constexpr std::string_view http_version = "HTTP_VERSION";
+
+	// Заголовки
+	static constexpr std::string_view host			 = "HOST";
+	static constexpr std::string_view user			 = "USER";
+	static constexpr std::string_view accept		 = "ACCEPT";
+	static constexpr std::string_view content_type   = "CONTENT_TYPE";
+	static constexpr std::string_view content_length = "CONTENT_LENGTH";
+
+	// Тело запроса
+	static constexpr std::string_view body = "BODY";
+};
 
 
 // Наименования столбцов таблицы БД "Users" + имя таблицы

@@ -11,7 +11,7 @@ class ServerRequestDispatcher
 {
 public:
  	json getRequest(const json& msg);
-    void sendMessage(METHODS method, const json& msg);
+    json sendMessage(METHODS method, const json& msg);
  
 private:
     json getDataFromDataBase(const json& msg);

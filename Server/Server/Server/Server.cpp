@@ -18,7 +18,6 @@ Server::Server(short port) :
 
 void Server::runServer() 
 {
-	std::cout << "new client\n";
 	ptr connection = Server::createNewConnection();
 	acceptor.async_accept(connection->getSocket(), 
 		boost::bind(&Server::handle_accept, shared_from_this(), connection, _1));
@@ -77,13 +76,13 @@ size_t Server::read_complete(const error_code& err, size_t bytes)
 {
 	if (err) return 0;
 	
-	auto myFind = [](const char* ch, const size_t& bytes) -> bool {
+	auto myFind = [](const char* ch, const size_t& bytes) -> size_t {
 		char finderSymb = '\n';
 		int counter = 0;
 		for (int i = bytes; i >= 0; --i) {
 			if (ch[i] == finderSymb) {
 				counter++;
-				if (counter == 4) return true;
+				if (counter == 4) return bytes;
 
 				if (finderSymb == '\n') finderSymb = '\r';
 				else					finderSymb = '\n';
@@ -93,7 +92,7 @@ size_t Server::read_complete(const error_code& err, size_t bytes)
 			}
 		}
 
-		return false;
+		return 0;
 	};
 
 	return !myFind(readBuffer, bytes);
