@@ -1,7 +1,6 @@
 import QtQuick
-import "./RegistrationWindow/TextInput_normal"
-import "./Widgets"
-import QtQuick.Layouts 2.15
+import "TextInput_normal"
+import "../Widgets"
 import QtQuick.Controls 2.15
 
 Window {
@@ -59,6 +58,10 @@ Window {
             anchors.horizontalCenterOffset: 0
             anchors.verticalCenterOffset: 123
             anchors.horizontalCenter: parent.horizontalCenter
+
+            onClickedButton: {
+                console.log("Кнопка нажата")
+            }
         }
 
         SwipeView {

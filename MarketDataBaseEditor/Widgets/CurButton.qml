@@ -9,13 +9,19 @@ Item {
     width: 200
     height: 30
 
+    signal clickedButton()
+
     Button {
+
         id: button
         visible: true
         anchors.fill: parent
         highlighted: false
         flat: false
         display: AbstractButton.TextOnly
+
+        onClicked: {
+        }
 
         background: Rectangle {
             id: rectangle
@@ -51,6 +57,7 @@ Item {
             hoverEnabled: true
 
             onPressed: {
+                _item.clickedButton()
                 // Изменение цвета градиента при нажатии
                 buttonGradient.stops[0].color = "#5a0833"; // Новый цвет для первого градиента
                 buttonGradient.stops[1].color = "#310707"; // Новый цвет для второго градиента
@@ -74,7 +81,6 @@ Item {
                 buttonGradient.stops[1].color = "#110707"; // Исходный цвет для второго градиента
             }
         }
-
     }
 
 }

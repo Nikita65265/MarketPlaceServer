@@ -15,10 +15,10 @@ qt_add_executable(appMarketDataBaseEditor
 qt_add_qml_module(appMarketDataBaseEditor
     URI MarketDataBaseEditor
     VERSION 1.0
-    QML_FILES
-    LoginForm.qml
+        QML_FILES RegistrationWindow/LoginForm.qml
         QML_FILES RegistrationWindow/TextInput_normal/TextInput_normal.qml
         QML_FILES Widgets/CurButton.qml
+        SOURCES RegistrationWindow/loginform.h RegistrationWindow/loginform.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
